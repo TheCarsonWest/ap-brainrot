@@ -21,13 +21,16 @@ def parse_srt(srt_text):
             entries.append((start, end, text))
     return entries
 
-def group_words(entries, max_gap=timedelta(seconds=1)):
+def group_words(entries, max_gap=timedelta(seconds=2)):
     sentences = []
     current = []
     for i, (start, end, word) in enumerate(entries):
         if current:
             prev_end = current[-1][1]
+            # Adjust the end time of the previous subtitle to match the start time of the current one
             if start - prev_end > max_gap or re.search(r'[.!?]$', current[-1][2]):
+                # Update the end time of the last word in the current group
+                current[-1] = (current[-1][0], start, current[-1][2])
                 sentences.append(current)
                 current = []
         current.append((start, end, word))

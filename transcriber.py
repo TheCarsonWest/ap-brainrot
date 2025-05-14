@@ -3,9 +3,6 @@ import argparse
 
 model = WhisperModel("base", compute_type="int8")  # or "medium", "large-v2"
 
-segments, _ = model.transcribe("trump.mp3", word_timestamps=True)
-
-
 
 def format_srt_time(seconds):
     hrs = int(seconds // 3600)
@@ -13,18 +10,6 @@ def format_srt_time(seconds):
     secs = int(seconds % 60)
     millis = int((seconds % 1) * 1000)
     return f"{hrs:02}:{mins:02}:{secs:02},{millis:03}"
-
-with open("output.srt", "w", encoding="utf-8") as f:
-    counter = 1
-    for segment in segments:
-        for word in segment.words:
-            f.write(f"{counter}\n")
-            start = word.start
-            end = word.end
-            text = word.word.strip()
-            f.write(f"{format_srt_time(start)} --> {format_srt_time(end)}\n")
-            f.write(f"{text}\n\n")
-            counter += 1
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Transcribe audio to SRT subtitles.")

@@ -1,0 +1,136 @@
+[Script Info]
+ScriptType: v4.00+
+PlayResX: 1280
+PlayResY: 720
+WrapStyle: 0
+ScaledBorderAndShadow: yes
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: Default,DejaVu Sans,36,&H00FFFFFF,&H000000FF,&H00000000,&H64000000,0,0,0,0,100,100,0,0,1,2,1,2,30,30,30,1
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:00.00,0:00:00.18,Default,,0,0,0,,{\c&H00FFFF&}On{\c} Easter Sunday we celebrate his glorious resurrection and proclaim as Christians have done for nearly 2 ,000 years, he is risen.
+Dialogue: 0,0:00:00.18,0:00:00.42,Default,,0,0,0,,On {\c&H00FFFF&}Easter{\c} Sunday we celebrate his glorious resurrection and proclaim as Christians have done for nearly 2 ,000 years, he is risen.
+Dialogue: 0,0:00:00.42,0:00:00.90,Default,,0,0,0,,On Easter {\c&H00FFFF&}Sunday{\c} we celebrate his glorious resurrection and proclaim as Christians have done for nearly 2 ,000 years, he is risen.
+Dialogue: 0,0:00:00.90,0:00:01.15,Default,,0,0,0,,On Easter Sunday {\c&H00FFFF&}we{\c} celebrate his glorious resurrection and proclaim as Christians have done for nearly 2 ,000 years, he is risen.
+Dialogue: 0,0:00:01.15,0:00:01.67,Default,,0,0,0,,On Easter Sunday we {\c&H00FFFF&}celebrate{\c} his glorious resurrection and proclaim as Christians have done for nearly 2 ,000 years, he is risen.
+Dialogue: 0,0:00:01.67,0:00:02.02,Default,,0,0,0,,On Easter Sunday we celebrate {\c&H00FFFF&}his{\c} glorious resurrection and proclaim as Christians have done for nearly 2 ,000 years, he is risen.
+Dialogue: 0,0:00:02.02,0:00:02.39,Default,,0,0,0,,On Easter Sunday we celebrate his {\c&H00FFFF&}glorious{\c} resurrection and proclaim as Christians have done for nearly 2 ,000 years, he is risen.
+Dialogue: 0,0:00:02.39,0:00:03.04,Default,,0,0,0,,On Easter Sunday we celebrate his glorious {\c&H00FFFF&}resurrection{\c} and proclaim as Christians have done for nearly 2 ,000 years, he is risen.
+Dialogue: 0,0:00:03.04,0:00:03.50,Default,,0,0,0,,On Easter Sunday we celebrate his glorious resurrection {\c&H00FFFF&}and{\c} proclaim as Christians have done for nearly 2 ,000 years, he is risen.
+Dialogue: 0,0:00:03.50,0:00:03.87,Default,,0,0,0,,On Easter Sunday we celebrate his glorious resurrection and {\c&H00FFFF&}proclaim{\c} as Christians have done for nearly 2 ,000 years, he is risen.
+Dialogue: 0,0:00:03.87,0:00:04.32,Default,,0,0,0,,On Easter Sunday we celebrate his glorious resurrection and proclaim {\c&H00FFFF&}as{\c} Christians have done for nearly 2 ,000 years, he is risen.
+Dialogue: 0,0:00:04.32,0:00:04.98,Default,,0,0,0,,On Easter Sunday we celebrate his glorious resurrection and proclaim as {\c&H00FFFF&}Christians{\c} have done for nearly 2 ,000 years, he is risen.
+Dialogue: 0,0:00:04.98,0:00:05.33,Default,,0,0,0,,On Easter Sunday we celebrate his glorious resurrection and proclaim as Christians {\c&H00FFFF&}have{\c} done for nearly 2 ,000 years, he is risen.
+Dialogue: 0,0:00:05.33,0:00:05.55,Default,,0,0,0,,On Easter Sunday we celebrate his glorious resurrection and proclaim as Christians have {\c&H00FFFF&}done{\c} for nearly 2 ,000 years, he is risen.
+Dialogue: 0,0:00:05.55,0:00:05.83,Default,,0,0,0,,On Easter Sunday we celebrate his glorious resurrection and proclaim as Christians have done {\c&H00FFFF&}for{\c} nearly 2 ,000 years, he is risen.
+Dialogue: 0,0:00:05.83,0:00:06.08,Default,,0,0,0,,On Easter Sunday we celebrate his glorious resurrection and proclaim as Christians have done for {\c&H00FFFF&}nearly{\c} 2 ,000 years, he is risen.
+Dialogue: 0,0:00:06.08,0:00:06.40,Default,,0,0,0,,On Easter Sunday we celebrate his glorious resurrection and proclaim as Christians have done for nearly {\c&H00FFFF&}2{\c} ,000 years, he is risen.
+Dialogue: 0,0:00:06.40,0:00:06.83,Default,,0,0,0,,On Easter Sunday we celebrate his glorious resurrection and proclaim as Christians have done for nearly 2 {\c&H00FFFF&},000{\c} years, he is risen.
+Dialogue: 0,0:00:06.83,0:00:07.13,Default,,0,0,0,,On Easter Sunday we celebrate his glorious resurrection and proclaim as Christians have done for nearly 2 ,000 {\c&H00FFFF&}years,{\c} he is risen.
+Dialogue: 0,0:00:07.74,0:00:07.91,Default,,0,0,0,,On Easter Sunday we celebrate his glorious resurrection and proclaim as Christians have done for nearly 2 ,000 years, {\c&H00FFFF&}he{\c} is risen.
+Dialogue: 0,0:00:07.91,0:00:08.16,Default,,0,0,0,,On Easter Sunday we celebrate his glorious resurrection and proclaim as Christians have done for nearly 2 ,000 years, he {\c&H00FFFF&}is{\c} risen.
+Dialogue: 0,0:00:08.16,0:00:08.56,Default,,0,0,0,,On Easter Sunday we celebrate his glorious resurrection and proclaim as Christians have done for nearly 2 ,000 years, he is {\c&H00FFFF&}risen.{\c}
+Dialogue: 0,0:00:09.22,0:00:09.51,Default,,0,0,0,,{\c&H00FFFF&}Through{\c} the pain and sacrifice of Jesus on the cross, we saw God's boundless love and devotion to all humanity.
+Dialogue: 0,0:00:09.51,0:00:09.80,Default,,0,0,0,,Through {\c&H00FFFF&}the{\c} pain and sacrifice of Jesus on the cross, we saw God's boundless love and devotion to all humanity.
+Dialogue: 0,0:00:09.80,0:00:10.30,Default,,0,0,0,,Through the {\c&H00FFFF&}pain{\c} and sacrifice of Jesus on the cross, we saw God's boundless love and devotion to all humanity.
+Dialogue: 0,0:00:10.30,0:00:10.51,Default,,0,0,0,,Through the pain {\c&H00FFFF&}and{\c} sacrifice of Jesus on the cross, we saw God's boundless love and devotion to all humanity.
+Dialogue: 0,0:00:10.51,0:00:11.11,Default,,0,0,0,,Through the pain and {\c&H00FFFF&}sacrifice{\c} of Jesus on the cross, we saw God's boundless love and devotion to all humanity.
+Dialogue: 0,0:00:11.11,0:00:11.48,Default,,0,0,0,,Through the pain and sacrifice {\c&H00FFFF&}of{\c} Jesus on the cross, we saw God's boundless love and devotion to all humanity.
+Dialogue: 0,0:00:11.48,0:00:11.85,Default,,0,0,0,,Through the pain and sacrifice of {\c&H00FFFF&}Jesus{\c} on the cross, we saw God's boundless love and devotion to all humanity.
+Dialogue: 0,0:00:11.85,0:00:12.17,Default,,0,0,0,,Through the pain and sacrifice of Jesus {\c&H00FFFF&}on{\c} the cross, we saw God's boundless love and devotion to all humanity.
+Dialogue: 0,0:00:12.17,0:00:12.30,Default,,0,0,0,,Through the pain and sacrifice of Jesus on {\c&H00FFFF&}the{\c} cross, we saw God's boundless love and devotion to all humanity.
+Dialogue: 0,0:00:12.30,0:00:12.58,Default,,0,0,0,,Through the pain and sacrifice of Jesus on the {\c&H00FFFF&}cross,{\c} we saw God's boundless love and devotion to all humanity.
+Dialogue: 0,0:00:13.25,0:00:13.35,Default,,0,0,0,,Through the pain and sacrifice of Jesus on the cross, {\c&H00FFFF&}we{\c} saw God's boundless love and devotion to all humanity.
+Dialogue: 0,0:00:13.35,0:00:13.53,Default,,0,0,0,,Through the pain and sacrifice of Jesus on the cross, we {\c&H00FFFF&}saw{\c} God's boundless love and devotion to all humanity.
+Dialogue: 0,0:00:13.53,0:00:14.11,Default,,0,0,0,,Through the pain and sacrifice of Jesus on the cross, we saw {\c&H00FFFF&}God's{\c} boundless love and devotion to all humanity.
+Dialogue: 0,0:00:14.11,0:00:14.59,Default,,0,0,0,,Through the pain and sacrifice of Jesus on the cross, we saw God's {\c&H00FFFF&}boundless{\c} love and devotion to all humanity.
+Dialogue: 0,0:00:14.59,0:00:14.88,Default,,0,0,0,,Through the pain and sacrifice of Jesus on the cross, we saw God's boundless {\c&H00FFFF&}love{\c} and devotion to all humanity.
+Dialogue: 0,0:00:14.88,0:00:15.11,Default,,0,0,0,,Through the pain and sacrifice of Jesus on the cross, we saw God's boundless love {\c&H00FFFF&}and{\c} devotion to all humanity.
+Dialogue: 0,0:00:15.11,0:00:15.58,Default,,0,0,0,,Through the pain and sacrifice of Jesus on the cross, we saw God's boundless love and {\c&H00FFFF&}devotion{\c} to all humanity.
+Dialogue: 0,0:00:15.58,0:00:15.91,Default,,0,0,0,,Through the pain and sacrifice of Jesus on the cross, we saw God's boundless love and devotion {\c&H00FFFF&}to{\c} all humanity.
+Dialogue: 0,0:00:15.91,0:00:16.28,Default,,0,0,0,,Through the pain and sacrifice of Jesus on the cross, we saw God's boundless love and devotion to {\c&H00FFFF&}all{\c} humanity.
+Dialogue: 0,0:00:16.28,0:00:16.85,Default,,0,0,0,,Through the pain and sacrifice of Jesus on the cross, we saw God's boundless love and devotion to all {\c&H00FFFF&}humanity.{\c}
+Dialogue: 0,0:00:17.64,0:00:17.71,Default,,0,0,0,,{\c&H00FFFF&}And{\c} in that moment of his resurrection history was forever changed with the promise of everlasting life.
+Dialogue: 0,0:00:17.71,0:00:17.80,Default,,0,0,0,,And {\c&H00FFFF&}in{\c} that moment of his resurrection history was forever changed with the promise of everlasting life.
+Dialogue: 0,0:00:17.80,0:00:17.98,Default,,0,0,0,,And in {\c&H00FFFF&}that{\c} moment of his resurrection history was forever changed with the promise of everlasting life.
+Dialogue: 0,0:00:17.98,0:00:18.39,Default,,0,0,0,,And in that {\c&H00FFFF&}moment{\c} of his resurrection history was forever changed with the promise of everlasting life.
+Dialogue: 0,0:00:18.39,0:00:18.69,Default,,0,0,0,,And in that moment {\c&H00FFFF&}of{\c} his resurrection history was forever changed with the promise of everlasting life.
+Dialogue: 0,0:00:18.69,0:00:18.94,Default,,0,0,0,,And in that moment of {\c&H00FFFF&}his{\c} resurrection history was forever changed with the promise of everlasting life.
+Dialogue: 0,0:00:18.94,0:00:19.50,Default,,0,0,0,,And in that moment of his {\c&H00FFFF&}resurrection{\c} history was forever changed with the promise of everlasting life.
+Dialogue: 0,0:00:19.50,0:00:20.21,Default,,0,0,0,,And in that moment of his resurrection {\c&H00FFFF&}history{\c} was forever changed with the promise of everlasting life.
+Dialogue: 0,0:00:20.21,0:00:20.48,Default,,0,0,0,,And in that moment of his resurrection history {\c&H00FFFF&}was{\c} forever changed with the promise of everlasting life.
+Dialogue: 0,0:00:20.48,0:00:20.82,Default,,0,0,0,,And in that moment of his resurrection history was {\c&H00FFFF&}forever{\c} changed with the promise of everlasting life.
+Dialogue: 0,0:00:20.82,0:00:21.39,Default,,0,0,0,,And in that moment of his resurrection history was forever {\c&H00FFFF&}changed{\c} with the promise of everlasting life.
+Dialogue: 0,0:00:21.39,0:00:21.76,Default,,0,0,0,,And in that moment of his resurrection history was forever changed {\c&H00FFFF&}with{\c} the promise of everlasting life.
+Dialogue: 0,0:00:21.76,0:00:21.96,Default,,0,0,0,,And in that moment of his resurrection history was forever changed with {\c&H00FFFF&}the{\c} promise of everlasting life.
+Dialogue: 0,0:00:21.96,0:00:22.37,Default,,0,0,0,,And in that moment of his resurrection history was forever changed with the {\c&H00FFFF&}promise{\c} of everlasting life.
+Dialogue: 0,0:00:22.37,0:00:22.80,Default,,0,0,0,,And in that moment of his resurrection history was forever changed with the promise {\c&H00FFFF&}of{\c} everlasting life.
+Dialogue: 0,0:00:22.80,0:00:23.32,Default,,0,0,0,,And in that moment of his resurrection history was forever changed with the promise of {\c&H00FFFF&}everlasting{\c} life.
+Dialogue: 0,0:00:23.32,0:00:23.92,Default,,0,0,0,,And in that moment of his resurrection history was forever changed with the promise of everlasting {\c&H00FFFF&}life.{\c}
+Dialogue: 0,0:00:23.92,0:00:24.64,Default,,0,0,0,,{\c&H00FFFF&}As{\c} we approach this joyous Easter Sunday, I want to wish Christians everywhere a happy and beautiful and blessed holiday.
+Dialogue: 0,0:00:24.64,0:00:24.80,Default,,0,0,0,,As {\c&H00FFFF&}we{\c} approach this joyous Easter Sunday, I want to wish Christians everywhere a happy and beautiful and blessed holiday.
+Dialogue: 0,0:00:24.80,0:00:25.10,Default,,0,0,0,,As we {\c&H00FFFF&}approach{\c} this joyous Easter Sunday, I want to wish Christians everywhere a happy and beautiful and blessed holiday.
+Dialogue: 0,0:00:25.10,0:00:25.44,Default,,0,0,0,,As we approach {\c&H00FFFF&}this{\c} joyous Easter Sunday, I want to wish Christians everywhere a happy and beautiful and blessed holiday.
+Dialogue: 0,0:00:25.44,0:00:25.98,Default,,0,0,0,,As we approach this {\c&H00FFFF&}joyous{\c} Easter Sunday, I want to wish Christians everywhere a happy and beautiful and blessed holiday.
+Dialogue: 0,0:00:25.98,0:00:26.28,Default,,0,0,0,,As we approach this joyous {\c&H00FFFF&}Easter{\c} Sunday, I want to wish Christians everywhere a happy and beautiful and blessed holiday.
+Dialogue: 0,0:00:26.28,0:00:26.69,Default,,0,0,0,,As we approach this joyous Easter {\c&H00FFFF&}Sunday,{\c} I want to wish Christians everywhere a happy and beautiful and blessed holiday.
+Dialogue: 0,0:00:27.00,0:00:27.00,Default,,0,0,0,,As we approach this joyous Easter Sunday, {\c&H00FFFF&}I{\c} want to wish Christians everywhere a happy and beautiful and blessed holiday.
+Dialogue: 0,0:00:27.00,0:00:27.10,Default,,0,0,0,,As we approach this joyous Easter Sunday, I {\c&H00FFFF&}want{\c} to wish Christians everywhere a happy and beautiful and blessed holiday.
+Dialogue: 0,0:00:27.10,0:00:27.32,Default,,0,0,0,,As we approach this joyous Easter Sunday, I want {\c&H00FFFF&}to{\c} wish Christians everywhere a happy and beautiful and blessed holiday.
+Dialogue: 0,0:00:27.32,0:00:27.60,Default,,0,0,0,,As we approach this joyous Easter Sunday, I want to {\c&H00FFFF&}wish{\c} Christians everywhere a happy and beautiful and blessed holiday.
+Dialogue: 0,0:00:27.60,0:00:28.05,Default,,0,0,0,,As we approach this joyous Easter Sunday, I want to wish {\c&H00FFFF&}Christians{\c} everywhere a happy and beautiful and blessed holiday.
+Dialogue: 0,0:00:28.05,0:00:28.69,Default,,0,0,0,,As we approach this joyous Easter Sunday, I want to wish Christians {\c&H00FFFF&}everywhere{\c} a happy and beautiful and blessed holiday.
+Dialogue: 0,0:00:28.69,0:00:28.98,Default,,0,0,0,,As we approach this joyous Easter Sunday, I want to wish Christians everywhere {\c&H00FFFF&}a{\c} happy and beautiful and blessed holiday.
+Dialogue: 0,0:00:28.98,0:00:29.33,Default,,0,0,0,,As we approach this joyous Easter Sunday, I want to wish Christians everywhere a {\c&H00FFFF&}happy{\c} and beautiful and blessed holiday.
+Dialogue: 0,0:00:29.33,0:00:29.69,Default,,0,0,0,,As we approach this joyous Easter Sunday, I want to wish Christians everywhere a happy {\c&H00FFFF&}and{\c} beautiful and blessed holiday.
+Dialogue: 0,0:00:29.69,0:00:30.30,Default,,0,0,0,,As we approach this joyous Easter Sunday, I want to wish Christians everywhere a happy and {\c&H00FFFF&}beautiful{\c} and blessed holiday.
+Dialogue: 0,0:00:30.30,0:00:30.62,Default,,0,0,0,,As we approach this joyous Easter Sunday, I want to wish Christians everywhere a happy and beautiful {\c&H00FFFF&}and{\c} blessed holiday.
+Dialogue: 0,0:00:30.62,0:00:31.03,Default,,0,0,0,,As we approach this joyous Easter Sunday, I want to wish Christians everywhere a happy and beautiful and {\c&H00FFFF&}blessed{\c} holiday.
+Dialogue: 0,0:00:31.03,0:00:31.66,Default,,0,0,0,,As we approach this joyous Easter Sunday, I want to wish Christians everywhere a happy and beautiful and blessed {\c&H00FFFF&}holiday.{\c}
+Dialogue: 0,0:00:32.38,0:00:32.78,Default,,0,0,0,,{\c&H00FFFF&}America{\c} is a nation of believers, we need God, we want God, and with his help we will make our nation stronger, safer, greater and more prosperous and much more united than ever before.
+Dialogue: 0,0:00:32.78,0:00:33.10,Default,,0,0,0,,America {\c&H00FFFF&}is{\c} a nation of believers, we need God, we want God, and with his help we will make our nation stronger, safer, greater and more prosperous and much more united than ever before.
+Dialogue: 0,0:00:33.10,0:00:33.25,Default,,0,0,0,,America is {\c&H00FFFF&}a{\c} nation of believers, we need God, we want God, and with his help we will make our nation stronger, safer, greater and more prosperous and much more united than ever before.
+Dialogue: 0,0:00:33.25,0:00:33.70,Default,,0,0,0,,America is a {\c&H00FFFF&}nation{\c} of believers, we need God, we want God, and with his help we will make our nation stronger, safer, greater and more prosperous and much more united than ever before.
+Dialogue: 0,0:00:33.70,0:00:33.89,Default,,0,0,0,,America is a nation {\c&H00FFFF&}of{\c} believers, we need God, we want God, and with his help we will make our nation stronger, safer, greater and more prosperous and much more united than ever before.
+Dialogue: 0,0:00:33.89,0:00:34.28,Default,,0,0,0,,America is a nation of {\c&H00FFFF&}believers,{\c} we need God, we want God, and with his help we will make our nation stronger, safer, greater and more prosperous and much more united than ever before.
+Dialogue: 0,0:00:34.56,0:00:34.74,Default,,0,0,0,,America is a nation of believers, {\c&H00FFFF&}we{\c} need God, we want God, and with his help we will make our nation stronger, safer, greater and more prosperous and much more united than ever before.
+Dialogue: 0,0:00:34.74,0:00:34.96,Default,,0,0,0,,America is a nation of believers, we {\c&H00FFFF&}need{\c} God, we want God, and with his help we will make our nation stronger, safer, greater and more prosperous and much more united than ever before.
+Dialogue: 0,0:00:34.96,0:00:35.32,Default,,0,0,0,,America is a nation of believers, we need {\c&H00FFFF&}God,{\c} we want God, and with his help we will make our nation stronger, safer, greater and more prosperous and much more united than ever before.
+Dialogue: 0,0:00:35.74,0:00:35.93,Default,,0,0,0,,America is a nation of believers, we need God, {\c&H00FFFF&}we{\c} want God, and with his help we will make our nation stronger, safer, greater and more prosperous and much more united than ever before.
+Dialogue: 0,0:00:35.93,0:00:36.20,Default,,0,0,0,,America is a nation of believers, we need God, we {\c&H00FFFF&}want{\c} God, and with his help we will make our nation stronger, safer, greater and more prosperous and much more united than ever before.
+Dialogue: 0,0:00:36.20,0:00:36.56,Default,,0,0,0,,America is a nation of believers, we need God, we want {\c&H00FFFF&}God,{\c} and with his help we will make our nation stronger, safer, greater and more prosperous and much more united than ever before.
+Dialogue: 0,0:00:36.93,0:00:37.24,Default,,0,0,0,,America is a nation of believers, we need God, we want God, {\c&H00FFFF&}and{\c} with his help we will make our nation stronger, safer, greater and more prosperous and much more united than ever before.
+Dialogue: 0,0:00:37.24,0:00:37.43,Default,,0,0,0,,America is a nation of believers, we need God, we want God, and {\c&H00FFFF&}with{\c} his help we will make our nation stronger, safer, greater and more prosperous and much more united than ever before.
+Dialogue: 0,0:00:37.43,0:00:37.65,Default,,0,0,0,,America is a nation of believers, we need God, we want God, and with {\c&H00FFFF&}his{\c} help we will make our nation stronger, safer, greater and more prosperous and much more united than ever before.
+Dialogue: 0,0:00:37.65,0:00:37.89,Default,,0,0,0,,America is a nation of believers, we need God, we want God, and with his {\c&H00FFFF&}help{\c} we will make our nation stronger, safer, greater and more prosperous and much more united than ever before.
+Dialogue: 0,0:00:37.89,0:00:38.15,Default,,0,0,0,,America is a nation of believers, we need God, we want God, and with his help {\c&H00FFFF&}we{\c} will make our nation stronger, safer, greater and more prosperous and much more united than ever before.
+Dialogue: 0,0:00:38.15,0:00:38.29,Default,,0,0,0,,America is a nation of believers, we need God, we want God, and with his help we {\c&H00FFFF&}will{\c} make our nation stronger, safer, greater and more prosperous and much more united than ever before.
+Dialogue: 0,0:00:38.29,0:00:38.50,Default,,0,0,0,,America is a nation of believers, we need God, we want God, and with his help we will {\c&H00FFFF&}make{\c} our nation stronger, safer, greater and more prosperous and much more united than ever before.
+Dialogue: 0,0:00:38.50,0:00:38.71,Default,,0,0,0,,America is a nation of believers, we need God, we want God, and with his help we will make {\c&H00FFFF&}our{\c} nation stronger, safer, greater and more prosperous and much more united than ever before.
+Dialogue: 0,0:00:38.71,0:00:39.07,Default,,0,0,0,,America is a nation of believers, we need God, we want God, and with his help we will make our {\c&H00FFFF&}nation{\c} stronger, safer, greater and more prosperous and much more united than ever before.
+Dialogue: 0,0:00:39.07,0:00:39.75,Default,,0,0,0,,America is a nation of believers, we need God, we want God, and with his help we will make our nation {\c&H00FFFF&}stronger,{\c} safer, greater and more prosperous and much more united than ever before.
+Dialogue: 0,0:00:40.03,0:00:40.25,Default,,0,0,0,,America is a nation of believers, we need God, we want God, and with his help we will make our nation stronger, {\c&H00FFFF&}safer,{\c} greater and more prosperous and much more united than ever before.
+Dialogue: 0,0:00:40.57,0:00:40.79,Default,,0,0,0,,America is a nation of believers, we need God, we want God, and with his help we will make our nation stronger, safer, {\c&H00FFFF&}greater{\c} and more prosperous and much more united than ever before.
+Dialogue: 0,0:00:40.79,0:00:41.00,Default,,0,0,0,,America is a nation of believers, we need God, we want God, and with his help we will make our nation stronger, safer, greater {\c&H00FFFF&}and{\c} more prosperous and much more united than ever before.
+Dialogue: 0,0:00:41.00,0:00:41.17,Default,,0,0,0,,America is a nation of believers, we need God, we want God, and with his help we will make our nation stronger, safer, greater and {\c&H00FFFF&}more{\c} prosperous and much more united than ever before.
+Dialogue: 0,0:00:41.17,0:00:41.74,Default,,0,0,0,,America is a nation of believers, we need God, we want God, and with his help we will make our nation stronger, safer, greater and more {\c&H00FFFF&}prosperous{\c} and much more united than ever before.
+Dialogue: 0,0:00:41.74,0:00:42.21,Default,,0,0,0,,America is a nation of believers, we need God, we want God, and with his help we will make our nation stronger, safer, greater and more prosperous {\c&H00FFFF&}and{\c} much more united than ever before.
+Dialogue: 0,0:00:42.21,0:00:42.97,Default,,0,0,0,,America is a nation of believers, we need God, we want God, and with his help we will make our nation stronger, safer, greater and more prosperous and {\c&H00FFFF&}much{\c} more united than ever before.
+Dialogue: 0,0:00:42.97,0:00:43.25,Default,,0,0,0,,America is a nation of believers, we need God, we want God, and with his help we will make our nation stronger, safer, greater and more prosperous and much {\c&H00FFFF&}more{\c} united than ever before.
+Dialogue: 0,0:00:43.25,0:00:43.71,Default,,0,0,0,,America is a nation of believers, we need God, we want God, and with his help we will make our nation stronger, safer, greater and more prosperous and much more {\c&H00FFFF&}united{\c} than ever before.
+Dialogue: 0,0:00:43.71,0:00:43.97,Default,,0,0,0,,America is a nation of believers, we need God, we want God, and with his help we will make our nation stronger, safer, greater and more prosperous and much more united {\c&H00FFFF&}than{\c} ever before.
+Dialogue: 0,0:00:43.97,0:00:44.21,Default,,0,0,0,,America is a nation of believers, we need God, we want God, and with his help we will make our nation stronger, safer, greater and more prosperous and much more united than {\c&H00FFFF&}ever{\c} before.
+Dialogue: 0,0:00:44.21,0:00:44.65,Default,,0,0,0,,America is a nation of believers, we need God, we want God, and with his help we will make our nation stronger, safer, greater and more prosperous and much more united than ever {\c&H00FFFF&}before.{\c}
+Dialogue: 0,0:00:45.20,0:00:45.53,Default,,0,0,0,,{\c&H00FFFF&}Thank{\c} you to everyone and have a really happy Easter.
+Dialogue: 0,0:00:45.53,0:00:45.79,Default,,0,0,0,,Thank {\c&H00FFFF&}you{\c} to everyone and have a really happy Easter.
+Dialogue: 0,0:00:45.79,0:00:46.00,Default,,0,0,0,,Thank you {\c&H00FFFF&}to{\c} everyone and have a really happy Easter.
+Dialogue: 0,0:00:46.00,0:00:46.56,Default,,0,0,0,,Thank you to {\c&H00FFFF&}everyone{\c} and have a really happy Easter.
+Dialogue: 0,0:00:46.56,0:00:46.78,Default,,0,0,0,,Thank you to everyone {\c&H00FFFF&}and{\c} have a really happy Easter.
+Dialogue: 0,0:00:46.78,0:00:46.93,Default,,0,0,0,,Thank you to everyone and {\c&H00FFFF&}have{\c} a really happy Easter.
+Dialogue: 0,0:00:46.93,0:00:47.07,Default,,0,0,0,,Thank you to everyone and have {\c&H00FFFF&}a{\c} really happy Easter.
+Dialogue: 0,0:00:47.07,0:00:47.75,Default,,0,0,0,,Thank you to everyone and have a {\c&H00FFFF&}really{\c} happy Easter.
+Dialogue: 0,0:00:47.75,0:00:48.39,Default,,0,0,0,,Thank you to everyone and have a really {\c&H00FFFF&}happy{\c} Easter.
+Dialogue: 0,0:00:48.39,0:00:49.02,Default,,0,0,0,,Thank you to everyone and have a really happy {\c&H00FFFF&}Easter.{\c}
