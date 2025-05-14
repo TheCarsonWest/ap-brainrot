@@ -1,40 +1,49 @@
-import sys
-import os
-import whisper
-from datetime import timedelta
+from faster_whisper import WhisperModel
+import argparse
 
-def transcribe_to_srt(mp3_file, srt_file):
-    # Load the Whisper model
-    model = whisper.load_model("base")
+model = WhisperModel("base", compute_type="int8")  # or "medium", "large-v2"
 
-    # Transcribe the audio
-    print("Transcribing audio...")
-    result = model.transcribe(mp3_file)
+segments, _ = model.transcribe("trump.mp3", word_timestamps=True)
 
-    # Generate SRT content
-    print("Generating SRT file...")
-    srt_content = []
-    for i, segment in enumerate(result['segments']):
-        start_time = str(timedelta(seconds=int(segment['start'])))
-        end_time = str(timedelta(seconds=int(segment['end'])))
-        srt_content.append(f"{i + 1}\n{start_time},000 --> {end_time},000\n{segment['text']}\n")
 
-    # Write to SRT file
-    with open(srt_file, "w", encoding="utf-8") as f:
-        f.writelines(srt_content)
 
-    print(f"SRT file saved to {srt_file}")
+def format_srt_time(seconds):
+    hrs = int(seconds // 3600)
+    mins = int((seconds % 3600) // 60)
+    secs = int(seconds % 60)
+    millis = int((seconds % 1) * 1000)
+    return f"{hrs:02}:{mins:02}:{secs:02},{millis:03}"
+
+with open("output.srt", "w", encoding="utf-8") as f:
+    counter = 1
+    for segment in segments:
+        for word in segment.words:
+            f.write(f"{counter}\n")
+            start = word.start
+            end = word.end
+            text = word.word.strip()
+            f.write(f"{format_srt_time(start)} --> {format_srt_time(end)}\n")
+            f.write(f"{text}\n\n")
+            counter += 1
 
 if __name__ == "__main__":
-    if len(sys.argv) != 3:
-        print("Usage: python transcriber.py <input_mp3_file> <output_srt_file>")
-        sys.exit(1)
+    parser = argparse.ArgumentParser(description="Transcribe audio to SRT subtitles.")
+    parser.add_argument("input_file", type=str, help="Path to the input audio file.")
+    parser.add_argument("output_file", type=str, help="Path to the output SRT file.")
+    args = parser.parse_args()
 
-    input_mp3 = sys.argv[1]
-    output_srt = sys.argv[2]
+    input_file = args.input_file
+    output_file = args.output_file
+    segments, _ = model.transcribe(input_file, word_timestamps=True)
 
-    if not os.path.exists(input_mp3):
-        print(f"Error: File {input_mp3} does not exist.")
-        sys.exit(1)
-
-    transcribe_to_srt(input_mp3, output_srt)
+    with open(output_file, "w", encoding="utf-8") as f:
+        counter = 1
+        for segment in segments:
+            for word in segment.words:
+                f.write(f"{counter}\n")
+                start = word.start
+                end = word.end
+                text = word.word.strip()
+                f.write(f"{format_srt_time(start)} --> {format_srt_time(end)}\n")
+                f.write(f"{text}\n\n")
+                counter += 1
