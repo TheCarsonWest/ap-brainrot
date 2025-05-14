@@ -1,6 +1,6 @@
 # Table of Contents
 ## Gemini Script Generation
-## e5 Voice AI
+## F5 Inference Voice AI
 ## Subject implementations
 - Latex
 - Manim
@@ -9,4 +9,3 @@
 - Image API
 ## AI Agent composer
 ## SRT Modes
-
