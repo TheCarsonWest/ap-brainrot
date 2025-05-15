@@ -1,7 +1,9 @@
 from faster_whisper import WhisperModel
 import argparse
+import os
+os.environ["KMP_DUPLICATE_LIB_OK"]="TRUE"
 
-model = WhisperModel("base", compute_type="int8")  # or "medium", "large-v2"
+model = WhisperModel("medium", compute_type="int8")  # or "medium", "large-v2"
 
 
 def format_srt_time(seconds):
