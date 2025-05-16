@@ -98,15 +98,6 @@ def generate_frame(args):
     img_resized = img.resize((int(img.width * scale), int(img.height * scale)), resample=Image.BICUBIC)
     frame.paste(img_resized, (x, y), img_resized)
 
-    # --- Render volume value in top left corner ---
-    from PIL import ImageDraw, ImageFont
-    draw = ImageDraw.Draw(frame)
-    try:
-        font = ImageFont.truetype("arial.ttf", 32)
-    except Exception:
-        font = ImageFont.load_default()
-    draw.text((10, 10), f"vol: {vol:.4f}", fill=(255,255,255,255), font=font)
-    # --- end volume render ---
 
     frame.save(os.path.join(output_dir, f"frame_{i:04d}.png"))
 

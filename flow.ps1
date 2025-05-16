@@ -43,7 +43,7 @@ if (-not (Test-Path $mp3Path) -or -not (Test-Path $refTextPath) -or -not (Test-P
 $refText = Get-Content -Path $refTextPath -Raw
 
 # Run TTS
-$inferCmd = "f5-tts_infer-cli --ref_audio `"$mp3Path`" --ref_text `"$refText`" --gen_file `"$script`" --output_dir `"$outputDir`""
+$inferCmd = "f5-tts_infer-cli --ref_audio `"$mp3Path`" --ref_text `"$refText`" --gen_file `"$script`" --output_dir `"$outputDir`" --speed 1.2 --remove_silence"
 Invoke-Expression $inferCmd
 
 # Convert infer_cli_basic.mp3 to infer_cli_basic.wav
