@@ -3,7 +3,7 @@ from time import sleep
 import argparse
 import google.generativeai as genai
 from openai import OpenAI
-import os
+import re
 # Set OpenAI API key from environment variable
 """client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
 
@@ -32,7 +32,7 @@ def ai_text(p):
         return ai_text(p)
     
 def construct_prompt(topic_file, character_file):
-    with open('single_prompt.txt', 'r', encoding='utf-8') as f:
+    with open('image_prompt.md', 'r', encoding='utf-8') as f:
         prompt = f.read()
     with open(topic_file, 'r', encoding='utf-8') as f:
         topic = f.read().strip()
@@ -40,7 +40,6 @@ def construct_prompt(topic_file, character_file):
         character = f.read().strip()
     prompt = prompt.replace('{{topic}}', topic)
     prompt = prompt.replace('{{character}}', character)
-    print(f"{prompt}")
     return prompt
 
 if __name__ == "__main__":
@@ -51,6 +50,7 @@ if __name__ == "__main__":
 
     prompt = construct_prompt(args.topic_file, args.character_file)
     output_text = ai_text(prompt)
+    print(output_text)
     replace_list = {
         "  "   : " ",
         'flip' : "fuck",
@@ -58,11 +58,16 @@ if __name__ == "__main__":
         "bruh": "bitch",
         "heck": "hell",
         "stuff":"shit",
-        "skibidi":"retard"
+        "hare brain":"harebrain",
+        "harebrain":"retard",
+        "A P U S H" : "AP US",
+        "?":".",
+        "!" : "."
     } # AI Swear filter bypass
 
     for r in replace_list:
-        output_text = output_text.replace(r, replace_list[r])
+        escaped_r = re.escape(r)  # Escape special characters in the key
+        output_text = re.sub(escaped_r, replace_list[r], output_text, flags=re.IGNORECASE)
 
 
     # Ensure the scripts directory exists
@@ -73,6 +78,8 @@ if __name__ == "__main__":
     # Remove extension and add .txt
     base_name = os.path.splitext(topic_filename)[0]
     output_path = os.path.join('scripts', f"{base_name}.txt")
+    output_path_no_curly = os.path.join('scripts', f"{base_name}_no_curly.txt")
 
+    # Write the original processed text
     with open(output_path, 'w', encoding='utf-8') as f:
         f.write(output_text)

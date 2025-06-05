@@ -30,6 +30,14 @@ if (-not (Test-Path $outputDir)) {
 }
 Copy-Item -Path $script -Destination $outputDir
 
+
+
+# Create a version of the script without {{double curly brackets}} and their contents
+$scriptNoCurly = Join-Path $outputDir "$baseName`_no_curly.txt"
+$scriptContent = Get-Content -Path $script -Raw
+$scriptContentNoCurly = $scriptContent -replace '\{\{.*?\}\}', ''
+Set-Content -Path $scriptNoCurly -Value $scriptContentNoCurly
+
 # Define asset paths
 $mp3Path = Join-Path $charPath "audio.mp3"
 $refTextPath = Join-Path $charPath "ref_text.txt"
@@ -42,8 +50,10 @@ if (-not (Test-Path $mp3Path) -or -not (Test-Path $refTextPath) -or -not (Test-P
 
 $refText = Get-Content -Path $refTextPath -Raw
 
-# Run TTS
-$inferCmd = "f5-tts_infer-cli --ref_audio `"$mp3Path`" --ref_text `"$refText`" --gen_file `"$script`" --output_dir `"$outputDir`" --remove_silence"
+# Update infer command to append _no_curly to the file name
+
+# Run TTS with the no curly script
+$inferCmd = "f5-tts_infer-cli --ref_audio `"$mp3Path`" --ref_text `"$refText`" --gen_file `"$scriptNoCurly`" --output_dir `"$outputDir`" --remove_silence"
 Invoke-Expression $inferCmd
 
 # Convert infer_cli_basic.mp3 to infer_cli_basic.wav
@@ -52,7 +62,6 @@ $wavInferPath = Join-Path $outputDir "infer_cli_basic.wav"
 $enhancedWavPath = Join-Path $outputDir "infer_cli_basic_cleaned.wav"
 Invoke-Expression "python audio.py `"$wavInferPath`""
 
-# Use enhanced WAV for the rest of the workflow
 $wavPath = $enhancedWavPath
 $srtPath = Join-Path $outputDir "output.srt"
 $assPath = Join-Path $outputDir "subtitles.ass"
@@ -71,16 +80,47 @@ if (Test-Path $srtPath) {
     exit 1
 }
 
-# Create frames folder
-$framesDir = Join-Path $outputDir "frame"
+# Create frames directory inside the output folder
+$framesDir = Join-Path $outputDir "frames"
 if (-not (Test-Path $framesDir)) {
     New-Item -ItemType Directory -Path $framesDir | Out-Null
 }
 
-# Run parametric_image.py
-Invoke-Expression "python parametric_image.py `"$imagePath`" `"$framesDir`" `"$wavPath`""
+# Create image cache directory inside the output folder
+$cacheDir = Join-Path $outputDir "cache"
+if (-not (Test-Path $cacheDir)) {
+    New-Item -ItemType Directory -Path $cacheDir | Out-Null
+}
 
-# Get duration of wav + 1 second
+
+# Usage: python =
+# Use the script with curly brackets for integrated.py
+Invoke-Expression "python bounce.py `"$imagePath`" `"$framesDir`" `"$wavInferPath`""
+
+$script = $script -replace '\\', '/'
+$srtPath = $srtPath -replace '\\', '/'
+$wavPath = $wavPath -replace '\\', '/'
+$framesDir = $framesDir -replace '\\', '/'
+$cacheDir = $cacheDir -replace '\\', '/'
+$outputDir = $outputDir -replace '\\', '/'
+
+# python image_search_superimpose.py <script.txt> <subtitles.srt> <wav_path> <input_frames_dir> <cache_dir> <output_dir
+# Execute the command
+$cmd = @(
+    "python",
+    "image_search.py",
+    """$script""",  # Double quotes to handle spaces in the path
+    """$srtPath""",        # Double quotes to handle spaces in the path
+    """$wavPath""",        # Double quotes to handle spaces in the path
+    """$framesDir""",      # Double quotes to handle spaces in the path
+    """$cacheDir""",       # Double quotes to handle spaces in the path
+    """$framesDir"""       # Double quotes to handle spaces in the path
+) -join " "
+
+Write-Host "Executing command: $cmd"
+
+# Execute the command
+Invoke-Expression $cmd
 $durationCmd = "ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 `"$wavPath`""
 $duration = (& cmd /c $durationCmd).Trim()
 if ($duration -match '^[\d\.]+$') {
@@ -155,10 +195,6 @@ $arguments = @(
 
 Start-Process -NoNewWindow -Wait -FilePath "ffmpeg" -ArgumentList $arguments
 
-
-if (Test-Path $framesDir) {
-    Remove-Item -Path $framesDir -Recurse -Force
-}
 
 # Copy final video to ./videos/ using subfolder name
 $videosDir = "./videos"

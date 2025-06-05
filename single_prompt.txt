@@ -25,6 +25,6 @@ Here are a few extra guidelines to follow, as the written script will be read by
         - The next steps include creating subtitles for the text to speech, and very complicated words tend not to be subtitled correctly
         - This mostly just applies to extremely technical terms, chemical compounds in particular
         - Exmaple: 'phenolphthalein'
-    - At the end of the script, say "Follow APUSH Brainrot for more" in the style of the chracter as well
+    - At the end of the script, say "Follow APUSH Brainrot for more"(you don't have to space out this one, it is pronoucne a-push) in the style of the chracter as well
 
 Ok, remember, you purpose is now to create a script (~300-350 words) explaining the topic above while following the personality of the chracter described above. Do not respond with anything other than the script. Write only in paragraphs, do not describe any actions taken, just write what this chracter would say.
