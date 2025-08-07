@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>title</title>
+</head>
+<body>
+
+
+<svg width="1800" height="1400" viewBox="0 0 1800 1400" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <style>
+    .node-rect { fill: #e0f2f7; stroke: #01579b; stroke-width: 2; rx: 8; ry: 8; }
+    .node-diamond { fill: #fff3e0; stroke: #e65100; stroke-width: 2; }
+    .node-oval { fill: #e8f5e9; stroke: #1b5e20; stroke-width: 2; }
+    .arrow { stroke: #333; stroke-width: 2; marker-end: url(#arrowhead); }
+    .text-box { font-family: sans-serif; font-size: 14px; color: #333; padding: 10px; box-sizing: border-box; }
+    .title-text { font-family: sans-serif; font-size: 18px; font-weight: bold; text-anchor: middle; }
+    .foreign-object-div { display: flex; align-items: center; justify-content: center; height: 100%; text-align: center; }
+  </style>
+
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#333" />
+    </marker>
+  </defs>
+
+  <text x="900" y="50" class="title-text">Video Generation Workflow Abstraction</text>
+
+  <ellipse cx="900" cy="120" rx="60" ry="30" class="node-oval" />
+  <foreignObject x="840" y="100" width="120" height="40">
+    <div xmlns="http://www.w3.org/1999/xhtml" class="foreign-object-div">Start</div>
+  </foreignObject>
+
+  <foreignObject x="700" y="180" width="400" height="80">
+    <div xmlns="http://www.w3.org/1999/xhtml" class="foreign-object-div text-box">
+      Input: Script File, Character Folder (audio.mp3, ref_text.txt, image.png), Input Video (input.mp4)
+    </div>
+  </foreignObject>
+  <path d="M900,150 L900,180" class="arrow" />
+
+  <rect x="650" y="280" width="500" height="100" class="node-rect" />
+  <foreignObject x="660" y="290" width="480" height="80">
+    <div xmlns="http://www.w3.org/1999/xhtml" class="foreign-object-div text-box">
+      Initialize Output Directories. Validate Input Script, Character Folder & Assets. Exit on missing.
+    </div>
+  </foreignObject>
+  <path d="M900,260 L900,280" class="arrow" />
+
+  <rect x="650" y="410" width="500" height="100" class="node-rect" />
+  <foreignObject x="660" y="420" width="480" height="80">
+    <div xmlns="http://www.w3.org/1999/xhtml" class="foreign-object-div text-box">
+      Read Ref Text. Run TTS (f5-tts) to generate `infer_cli_basic.wav`. Enhance Audio (audio.py) to `infer_cli_basic_cleaned.wav`.
+    </div>
+  </foreignObject>
+  <path d="M900,380 L900,410" class="arrow" />
+
+  <rect x="650" y="540" width="500" height="100" class="node-rect" />
+  <foreignObject x="660" y="550" width="480" height="80">
+    <div xmlns="http://www.w3.org/1999/xhtml" class="foreign-object-div text-box">
+      Transcribe Audio (transcriber.py) to `output.srt`. Generate Subtitles (subtitle.py) to `subtitles.ass`. (Conditional skips)
+    </div>
+  </foreignObject>
+  <path d="M900,510 L900,540" class="arrow" />
+
+  <rect x="650" y="670" width="500" height="100" class="node-rect" />
+  <foreignObject x="660" y="680" width="480" height="80">
+    <div xmlns="http://www.w3.org/1999/xhtml" class="foreign-object-div text-box">
+      Create `frames` & `cache` dirs. Generate Animation Frames (bounce.py). Select/Modify Frames (image_search2.py).
+    </div>
+  </foreignObject>
+  <path d="M900,640 L900,670" class="arrow" />
+
+  <rect x="650" y="800" width="500" height="100" class="node-rect" />
+  <foreignObject x="660" y="810" width="480" height="80">
+    <div xmlns="http://www.w3.org/1999/xhtml" class="foreign-object-div text-box">
+      Get Durations of Generated Audio & `input.mp4` (ffprobe). Calculate Random Start Time for `input.mp4` trim.
+    </div>
+  </foreignObject>
+  <path d="M900,770 L900,800" class="arrow" />
+
+  <rect x="650" y="930" width="500" height="120" class="node-rect" />
+  <foreignObject x="660" y="940" width="480" height="100">
+    <div xmlns="http://www.w3.org/1999/xhtml" class="foreign-object-div text-box">
+      FFmpeg: Trim `input.mp4`, Crop & Overlay Frames, Add Subtitles, Mix Audio. Output `final.mp4` (with H.264, AAC encoding).
+    </div>
+  </foreignObject>
+  <path d="M900,900 L900,930" class="arrow" />
+
+  <rect x="650" y="1080" width="500" height="80" class="node-rect" />
+  <foreignObject x="660" y="1090" width="480" height="60">
+    <div xmlns="http://www.w3.org/1999/xhtml" class="foreign-object-div text-box">
+      Copy `final.mp4` to `videos/baseName.mp4`.
+    </div>
+  </foreignObject>
+  <path d="M900,1050 L900,1080" class="arrow" />
+
+  <ellipse cx="900" cy="1200" rx="60" ry="30" class="node-oval" />
+  <foreignObject x="840" y="1180" width="120" height="40">
+    <div xmlns="http://www.w3.org/1999/xhtml" class="foreign-object-div">End</div>
+  </foreignObject>
+  <path d="M900,1160 L900,1180" class="arrow" />
+
+</svg>
+
+
+</body>
+</html>

@@ -30,14 +30,6 @@ if (-not (Test-Path $outputDir)) {
 }
 Copy-Item -Path $script -Destination $outputDir
 
-
-
-# Create a version of the script without {{double curly brackets}} and their contents
-$scriptNoCurly = Join-Path $outputDir "$baseName`_no_curly.txt"
-$scriptContent = Get-Content -Path $script -Raw
-$scriptContentNoCurly = $scriptContent -replace '\{\{.*?\}\}', ''
-Set-Content -Path $scriptNoCurly -Value $scriptContentNoCurly
-
 # Define asset paths
 $mp3Path = Join-Path $charPath "audio.mp3"
 $refTextPath = Join-Path $charPath "ref_text.txt"
@@ -50,10 +42,8 @@ if (-not (Test-Path $mp3Path) -or -not (Test-Path $refTextPath) -or -not (Test-P
 
 $refText = Get-Content -Path $refTextPath -Raw
 
-# Update infer command to append _no_curly to the file name
-
-# Run TTS with the no curly script
-$inferCmd = "f5-tts_infer-cli --ref_audio `"$mp3Path`" --ref_text `"$refText`" --gen_file `"$scriptNoCurly`" --output_dir `"$outputDir`" --remove_silence"
+# Run TTS with the script
+$inferCmd = "f5-tts_infer-cli --ref_audio `"$mp3Path`" --ref_text `"$refText`" --gen_file `"$script`" --output_dir `"$outputDir`" --remove_silence"
 Invoke-Expression $inferCmd
 
 # Convert infer_cli_basic.mp3 to infer_cli_basic.wav
@@ -104,18 +94,9 @@ $framesDir = $framesDir -replace '\\', '/'
 $cacheDir = $cacheDir -replace '\\', '/'
 $outputDir = $outputDir -replace '\\', '/'
 
-# python image_search_superimpose.py <script.txt> <subtitles.srt> <wav_path> <input_frames_dir> <cache_dir> <output_dir
+# python images.py <subtitles.srt> <wav_path> <input_frames_dir> <cache_dir> <output_dir>
 # Execute the command
-$cmd = @(
-    "python",
-    "image_search.py",
-    """$script""",  # Double quotes to handle spaces in the path
-    """$srtPath""",        # Double quotes to handle spaces in the path
-    """$wavPath""",        # Double quotes to handle spaces in the path
-    """$framesDir""",      # Double quotes to handle spaces in the path
-    """$cacheDir""",       # Double quotes to handle spaces in the path
-    """$framesDir"""       # Double quotes to handle spaces in the path
-) -join " "
+$cmd = "python images.py `"$srtPath`" `"$wavPath`" `"$framesDir`" `"$cacheDir`" `"$framesDir`""
 
 Write-Host "Executing command: $cmd"
 

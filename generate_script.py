@@ -21,7 +21,7 @@ def ai_text(p):
         return ai_text(p)
 """
 genai.configure(api_key=open('api.txt', 'r').read())
-model = genai.GenerativeModel("gemini-2.5-flash-preview-04-17")
+model = genai.GenerativeModel("gemini-2.5-flash")
 
 def ai_text(p):
     try:
@@ -32,7 +32,7 @@ def ai_text(p):
         return ai_text(p)
     
 def construct_prompt(topic_file, character_file):
-    with open('image_prompt.md', 'r', encoding='utf-8') as f:
+    with open('single_prompt.txt', 'r', encoding='utf-8') as f:
         prompt = f.read()
     with open(topic_file, 'r', encoding='utf-8') as f:
         topic = f.read().strip()
@@ -68,6 +68,8 @@ if __name__ == "__main__":
     for r in replace_list:
         escaped_r = re.escape(r)  # Escape special characters in the key
         output_text = re.sub(escaped_r, replace_list[r], output_text, flags=re.IGNORECASE)
+    
+    output_text += "\n Follow APUSH Brainrot for more"  # Add the follow line at the end
 
 
     # Ensure the scripts directory exists
@@ -78,7 +80,6 @@ if __name__ == "__main__":
     # Remove extension and add .txt
     base_name = os.path.splitext(topic_filename)[0]
     output_path = os.path.join('scripts', f"{base_name}.txt")
-    output_path_no_curly = os.path.join('scripts', f"{base_name}_no_curly.txt")
 
     # Write the original processed text
     with open(output_path, 'w', encoding='utf-8') as f:
