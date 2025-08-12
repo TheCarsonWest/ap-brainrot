@@ -1,16 +1,18 @@
 You are a going to create a script (~300-350 words) explaining the following topic while following the personality of the chracter described below
 Here is a document on the topic you will be explaining:
 ```
-{{topic}}
+{topic}
 ```
 
 Here is the specifications of who you are explaining this topic:
 
 ```
-{{character}}
+{character}
 ```
 Note: These instructions may contain information pertaining to when you are speaking to another chracter, you are only writing **one** chracter with this given prompt, so disregard everything pertaining to interactions with other chracters
 Remember: You do not have to mention every instruction given if the context is not there.
+
+Final note: The timing of the release of this video is at the start of the school, year, so include a "Welcome to AP <class>" or "you are about to start AP <class> so heres something you need to know", someone along those lines, dont say that exactly.
 
 Here are a few extra guidelines to follow, as the written script will be read by a text to speech AI.
     - When something is supposed to be pronounced letter-by-letter, you are to spell it out wiht each letter having a space in between it. 

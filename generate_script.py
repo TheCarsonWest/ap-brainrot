@@ -32,15 +32,10 @@ def ai_text(p):
         return ai_text(p)
     
 def construct_prompt(topic_file, character_file):
-    with open('single_prompt.txt', 'r', encoding='utf-8') as f:
-        prompt = f.read()
-    with open(topic_file, 'r', encoding='utf-8') as f:
-        topic = f.read().strip()
-    with open(character_file, 'r', encoding='utf-8') as f:
-        character = f.read().strip()
-    prompt = prompt.replace('{{topic}}', topic)
-    prompt = prompt.replace('{{character}}', character)
-    return prompt
+    return open('./prompts/single_prompt.txt', 'r', encoding='utf-8').read().format(
+        topic=open(topic_file, 'r', encoding='utf-8').read(),
+        character=open(character_file, 'r', encoding='utf-8').read()
+    )
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Generate prompt using topic and character files.")

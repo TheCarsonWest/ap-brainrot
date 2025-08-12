@@ -1,0 +1,18 @@
+"""
+Here is the script of a video you are going to create:
+
+{script}
+
+Your job is to identify parts of the script that would benefit from visual supplementation and specify the type of visual to use: an image from a search, a diagram, or an equation. For each relevant part, provide a dictionary where the key is the exact string from the script, do not correct any grammatical errors, even if it sounds like complete nonsense. The strings MUST match what is in the script. The value for this key is another dictionary with two keys: "type" and "details".
+
+- "type": one of "text", "image", or "equation". You will choose the type based on what is most appropriate for the visual representation needed.
+- "details":
+  - For "text": just plain text that is relevant to the script, while the script itself will have subtitles across the screen, if you want to continuously display a theorem, law, or concept, you can use this option to specify the text to display. Try to use this option every time that a law, concept, principle, or theorem is mentioned in the script, and have it explain the concept in a way that is easy to understand. Do not use this option to display equations. This is not markdown, so do not use any formatting, just plain text. The text should be relevant to the script and should not be a generic text. Do not use this to show specific laws, concepts, or theorems. Do not show images relating to the anything personal to the person speaking.
+  - For "image": a descriptive image search prompt that would yield a relevant image for the text. The values should be descriptive image search prompts that would yield relevant images for the text. You cannot simply describe a concept you want to show, you must describe the image you want to find. If it is trying to convey a concept, then search directly for that concetp instead of describing that concept. The image should be relevant to the text and should not be a generic image. Do not use this to show specific laws, concepts, or theorems. Do not show images relating to the anything personal to the person speaking.
+
+  - For "equation": the mathematical equation in LaTeX format. Try to use this option every time that a mathematical equation is mentioned in the script. For the text that triggers the equation, try to use the text from before the equation is said , and until the text after the equation is said. do not paraphrase or change it. The LaTeX equation should be a valid LaTeX equation that can be rendered to an image. Do not use this option to display images, diagrams, or concepts.
+
+Choose the most appropriate type of visual for each part, preferring "image" when possible. Use "diagram" only when a visual representation is crucial and cannot be conveyed through an image. Use "equation" only when mathematical expressions are mentioned.
+
+Respond with a JSON dictionary where each key is an exact string from the script that requires a visual, and each value is a dictionary with "type" and "details" as described. Do not include parts of the script that do not require a visual. Do not add any other text or explanation.
+"""

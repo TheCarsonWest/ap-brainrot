@@ -149,28 +149,14 @@ def srt_to_raw_script(srt_text: str) -> str:
 
 def create_prompt(script: str) -> str:
     """Create prompt for AI to generate image search prompts."""
-    return f"""
-Here is the script of a video you are going to create:
-
-{script}
-
-Your job is to identify parts of the script that would benefit from visual supplementation and specify the type of visual to use: an image from a search, a diagram, or an equation. For each relevant part, provide a dictionary where the key is the exact string from the script, do not correct any grammatical errors, even if it sounds like complete nonsense. The strings MUST match what is in the script. The value for this key is another dictionary with two keys: "type" and "details".
-
-- "type": one of "text", "image", or "equation". You will choose the type based on what is most appropriate for the visual representation needed.
-- "details":
-  - For "text": just plain text that is relevant to the script, while the script itself will have subtitles across the screen, if you want to continuously display a theorem, law, or concept, you can use this option to specify the text to display. Try to use this option every time that a law, concept, principle, or theorem is mentioned in the script, and have it explain the concept in a way that is easy to understand. Do not use this option to display equations. This is not markdown, so do not use any formatting, just plain text. The text should be relevant to the script and should not be a generic text. Do not use this to show specific laws, concepts, or theorems. Do not show images relating to the anything personal to the person speaking.
-  - For "image": a descriptive image search prompt that would yield a relevant image for the text. The values should be descriptive image search prompts that would yield relevant images for the text. You cannot simply describe a concept you want to show, you must describe the image you want to find. If it is trying to convey a concept, then search directly for that concetp instead of describing that concept. The image should be relevant to the text and should not be a generic image. Do not use this to show specific laws, concepts, or theorems. Do not show images relating to the anything personal to the person speaking.
-
-  - For "equation": the mathematical equation in LaTeX format. Try to use this option every time that a mathematical equation is mentioned in the script. For the text that triggers the equation, try to use the text from before the equation is said , and until the text after the equation is said. do not paraphrase or change it. The LaTeX equation should be a valid LaTeX equation that can be rendered to an image. Do not use this option to display images, diagrams, or concepts.
-
-Choose the most appropriate type of visual for each part, preferring "image" when possible. Use "diagram" only when a visual representation is crucial and cannot be conveyed through an image. Use "equation" only when mathematical expressions are mentioned.
-
-Respond with a JSON dictionary where each key is an exact string from the script that requires a visual, and each value is a dictionary with "type" and "details" as described. Do not include parts of the script that do not require a visual. Do not add any other text or explanation.
-"""
+    return open('./prompts/timing_gen_prompt.txt', 'r', encoding='utf-8').read().format(
+        script=script
+    )
 
 """ 
  "diagram",
- - For "diagram": a brief description of the diagram needed (e.g., "strong acid weak base titration curve"). Use this option sparingly, only when a diagram is necessary and an image search is insufficient. """
+ - For "diagram": a brief description of the diagram needed (e.g., "strong acid weak base titration curve"). Use this option sparingly, only when a diagram is necessary and an image search is insufficient. 
+ """
 
 def similarity(a: str, b: str) -> float:
     """Calculate similarity between two strings using SequenceMatcher."""
@@ -341,76 +327,7 @@ def image_search_and_cache(prompt_dict: dict, cache_dir: str) -> str:
 
     if prompt_dict.get("type") == "text":
         try:
-            # Render the text to an image (PNG) with autofit, white text, black outline, drop shadow, DejaVu Sans
-            W, H = 720, 200
-            PAD = 20
-            text_content = prompt_dict.get("details", "")
-            # Try to load DejaVu Sans font
-            font_path = None
-            try:
-                import matplotlib
-                font_path = matplotlib.font_manager.findfont("DejaVu Sans")
-            except Exception:
-                font_path = None
-            # Improved word wrapping and autofit font size
-            def wrap_text(text, font, max_width, draw):
-                words = text.split()
-                lines = []
-                line = ''
-                for word in words:
-                    test_line = line + (' ' if line else '') + word
-                    w = draw.textlength(test_line, font=font)
-                    if w > max_width and line:
-                        lines.append(line)
-                        line = word
-                    else:
-                        line = test_line
-                if line:
-                    lines.append(line)
-                return lines
-
-            max_font_size = 100
-            min_font_size = 20
-            best_font_size = min_font_size
-            for font_size in range(max_font_size, min_font_size-1, -2):
-                try:
-                    font = ImageFont.truetype(font_path or "DejaVuSans.ttf", font_size)
-                except Exception:
-                    font = ImageFont.load_default()
-                img_temp = Image.new('RGBA', (W, H), (0,0,0,0))
-                draw_temp = ImageDraw.Draw(img_temp)
-                lines = wrap_text(text_content, font, W-2*PAD, draw_temp)
-                total_height = sum([draw_temp.textbbox((0,0), line, font=font)[3] - draw_temp.textbbox((0,0), line, font=font)[1] for line in lines]) + (len(lines)-1)*8
-                if total_height <= H - 2*PAD:
-                    best_font_size = font_size
-                    break
-            try:
-                font = ImageFont.truetype(font_path or "DejaVuSans.ttf", best_font_size)
-            except Exception:
-                font = ImageFont.load_default()
-            img = Image.new('RGBA', (W, H), (0,0,0,0))
-            draw = ImageDraw.Draw(img)
-            lines = wrap_text(text_content, font, W-2*PAD, draw)
-            total_height = sum([draw.textbbox((0,0), line, font=font)[3] - draw.textbbox((0,0), line, font=font)[1] for line in lines]) + (len(lines)-1)*8
-            y = (H - total_height)//2
-            for line in lines:
-                bbox = draw.textbbox((0,0), line, font=font)
-                text_w = bbox[2] - bbox[0]
-                x = (W - text_w)//2
-                # Draw drop shadow
-                shadow_offset = 3
-                draw.text((x+shadow_offset, y+shadow_offset), line, font=font, fill=(0,0,0,180))
-                # Draw black outline
-                for ox in [-2,0,2]:
-                    for oy in [-2,0,2]:
-                        if ox == 0 and oy == 0:
-                            continue
-                        draw.text((x+ox, y+oy), line, font=font, fill='black')
-                # Draw main white text
-                draw.text((x, y), line, font=font, fill='white')
-                y += bbox[3] - bbox[1] + 8
-            img.save(local_path, format='PNG')
-            return os.path.normpath(local_path)
+            return generate_text_image(prompt_dict.get("details", ""), local_path)
         except Exception as e:
             print(f"Failed to render text image: {e}")
             return None
@@ -424,7 +341,7 @@ def image_search_and_cache(prompt_dict: dict, cache_dir: str) -> str:
         # Use a LaTeX renderer to create an image 
         try:
             print(f"Rendering LaTeX equation to PNG: {prompt_dict.get('details', '')} -> {local_path}")
-            render_latex_to_png(prompt_dict.get("details", ""), output_file=local_path)
+            render_latex_to_png(prompt_dict.get('details', ""), output_file=local_path)
             if not os.path.isfile(local_path):
                 print(f"Equation PNG was not saved at {local_path}")
                 return None
@@ -514,10 +431,80 @@ def superimpose_frame(args):
     output_path = os.path.normpath(os.path.join(output_dir, f"frame_{i:04d}.png"))
     frame.save(output_path)
 
+def generate_text_image(text_content, local_path, W=720, H=200, PAD=20):
+    """Generate an image of text with autofit, white text, black outline, and drop shadow."""
+    # Try to load DejaVu Sans font
+    font_path = None
+    try:
+        import matplotlib
+        font_path = matplotlib.font_manager.findfont("DejaVu Sans")
+    except Exception:
+        font_path = None
+
+    # Improved word wrapping and autofit font size
+    def wrap_text(text, font, max_width, draw):
+        words = text.split()
+        lines = []
+        line = ''
+        for word in words:
+            test_line = line + (' ' if line else '') + word
+            w = draw.textlength(test_line, font=font)
+            if w > max_width and line:
+                lines.append(line)
+                line = word
+            else:
+                line = test_line
+        if line:
+            lines.append(line)
+        return lines
+
+    max_font_size = 100
+    min_font_size = 20
+    best_font_size = min_font_size
+    for font_size in range(max_font_size, min_font_size-1, -2):
+        try:
+            font = ImageFont.truetype(font_path or "DejaVuSans.ttf", font_size)
+        except Exception:
+            font = ImageFont.load_default()
+        img_temp = Image.new('RGBA', (W, H), (0,0,0,0))
+        draw_temp = ImageDraw.Draw(img_temp)
+        lines = wrap_text(text_content, font, W-2*PAD, draw_temp)
+        total_height = sum([draw_temp.textbbox((0,0), line, font=font)[3] - draw_temp.textbbox((0,0), line, font=font)[1] for line in lines]) + (len(lines)-1)*8
+        if total_height <= H - 2*PAD:
+            best_font_size = font_size
+            break
+    try:
+        font = ImageFont.truetype(font_path or "DejaVuSans.ttf", best_font_size)
+    except Exception:
+        font = ImageFont.load_default()
+    img = Image.new('RGBA', (W, H), (0,0,0,0))
+    draw = ImageDraw.Draw(img)
+    lines = wrap_text(text_content, font, W-2*PAD, draw)
+    total_height = sum([draw.textbbox((0,0), line, font=font)[3] - draw.textbbox((0,0), line, font=font)[1] for line in lines]) + (len(lines)-1)*8
+    y = (H - total_height)//2
+    for line in lines:
+        bbox = draw.textbbox((0,0), line, font=font)
+        text_w = bbox[2] - bbox[0]
+        x = (W - text_w)//2
+        # Draw drop shadow
+        shadow_offset = 3
+        draw.text((x+shadow_offset, y+shadow_offset), line, font=font, fill=(0,0,0,180))
+        # Draw black outline
+        for ox in [-2,0,2]:
+            for oy in [-2,0,2]:
+                if ox == 0 and oy == 0:
+                    continue
+                draw.text((x+ox, y+oy), line, font=font, fill='black')
+        # Draw main white text
+        draw.text((x, y), line, font=font, fill='white')
+        y += bbox[3] - bbox[1] + 8
+    img.save(local_path, format='PNG')
+    return os.path.normpath(local_path)
+
 if __name__ == "__main__":
-    if len(sys.argv) != 6:
+    """    if len(sys.argv) != 6:
         print(f"Usage: {sys.argv[0]} <subtitles.srt> <wav_path> <input_frames_dir> <cache_dir> <output_dir>")
-        sys.exit(1)
+        sys.exit(1)"""
 
     srt_path = sys.argv[1]
     wav_path = sys.argv[2]
@@ -525,6 +512,8 @@ if __name__ == "__main__":
     cache_dir = sys.argv[4]
     output_dir = sys.argv[5]
 
+    vid_name = sys.argv[1].split('\\')[-2]
+    print(vid_name)
     with open(srt_path, "r", encoding="utf-8") as f:
         srt_text = f.read()
 
@@ -567,6 +556,16 @@ if __name__ == "__main__":
             trigger_images.append((start, end, img_path))
         except Exception as e:
             print(f"Failed to fetch image for prompt '{prompt}': {e}")
+
+    # Generate an initial image with the video name
+    initial_image_path = os.path.join(cache_dir, f"{vid_name}_initial.png")
+    try:
+        generate_text_image(vid_name, initial_image_path)
+        sr, data = wavfile.read(wav_path)
+        duration = len(data) / sr
+        trigger_images.insert(0, (0, trigger_intervals[0][0] if trigger_intervals else duration, initial_image_path))
+    except Exception as e:
+        print(f"Failed to generate initial image for video name: {e}")
 
     sr, data = wavfile.read(wav_path)
     duration = len(data) / sr

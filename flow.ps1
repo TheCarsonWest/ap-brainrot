@@ -113,7 +113,7 @@ if ($duration -match '^[\d\.]+$') {
 
 
 # Get a random .mp4 from ./background_videos/
-$bgVideosDir = "./background_videos"
+$bgVideosDir = "./assets/background_videos/"
 if (-not (Test-Path $bgVideosDir)) {
     Write-Warning "Background videos directory '$bgVideosDir' not found. Skipping video processing."
     exit 1
