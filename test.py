@@ -1,33 +1,84 @@
-import time
-from google import genai
-from google.genai import types
 
-client = genai.Client(api_key=open('api.txt', 'r').read())
+def download_largest_google_image(query):
+    import os
+    import requests
+    from selenium import webdriver
+    from bs4 import BeautifulSoup
+    import time
+    import urllib.parse
 
+    temp_dir = "./imag_temp"
+    if not os.path.exists(temp_dir):
+        os.makedirs(temp_dir)
 
-def ai_text(p, think=-1):
-    """Generate text using Gemini API with retry logic."""
-    try:
-        if think > 1:
-            return client.models.generate_content(
-                model="gemini-2.5-flash",
-                contents=p,
-                config=types.GenerateContentConfig(
-                    thinking_config=types.ThinkingConfig(thinking_budget=think)
-                    # Turn off thinking:
-                    # thinking_config=types.ThinkingConfig(thinking_budget=0)
-                    # Turn on dynamic thinking:
-                    # thinking_config=types.ThinkingConfig(thinking_budget=-1)
-                ),
-            ).text
-        else:
-            return client.models.generate_content(contents=p,model="gemini-2.5-flash").text
-    except Exception as e:
-        print(f'Error in ai_text: {e}')
-        time.sleep(5)
-        return ai_text(p, think)
-    
-prompt = """
-Generate a comprehensive SVG diagram of Weak Acid + Strong Base Titration Graph. Respond only with code in an svg code block, do not use comments within your code in order to save space. Include ample padding so that no text overlaps with anything. If the diagram include a graph, include all of the important points. Use the foreignObject tag when creating text boxes so that you can use text wrapping, and to make sure no text overlaps with any object on the screen, and by making sure that the bounds(x,y,y+length,x+width) of the divs inside foreign Objects do not overlaps. In general, try not to make too many text boxes within close proximity of each other.
-"""
-print(ai_text(prompt, think=3000))  # Example usage, can be removed in production
+    driver = webdriver.Chrome()
+    encoded_query = urllib.parse.quote(query)
+    driver.get(f"https://www.google.com/search?tbm=isch&q={encoded_query}")
+
+    time.sleep(0.5)
+
+    soup = BeautifulSoup(driver.page_source, "html.parser")
+    driver.quit()
+
+    images = soup.find_all("img")
+    img_urls = []
+    for img in images:
+        img_url = img.get("src") or img.get("data-src")
+        if img_url and img_url.startswith("http"):
+            img_urls.append(img_url)
+        if len(img_urls) >= 25:
+            break
+
+    largest_size = 0
+    largest_path = None
+    largest_ext = "jpg"
+    extension_map = {
+        "image/jpeg": "jpg",
+        "image/png": "png",
+        "image/gif": "gif"
+    }
+
+    for i, img_url in enumerate(img_urls):
+        try:
+            response = requests.get(img_url, stream=True, timeout=10)
+            if response.status_code == 200:
+                content_type = response.headers.get("content-type", "").lower()
+                if "image" in content_type:
+                    file_extension = extension_map.get(content_type, "jpg")
+                    file_path = os.path.join(temp_dir, f"image_{i}.{file_extension}")
+                    with open(file_path, "wb") as f:
+                        for chunk in response.iter_content(1024):
+                            f.write(chunk)
+                    file_size = os.path.getsize(file_path)
+                    if file_size > largest_size:
+                        largest_size = file_size
+                        largest_path = file_path
+                        largest_ext = file_extension
+                # else: skip non-image
+        except Exception:
+            pass
+
+    # Save the largest image to ./imag/largest_image.{ext}
+    if largest_path:
+        final_dir = "./imag"
+        if not os.path.exists(final_dir):
+            os.makedirs(final_dir)
+        final_path = os.path.join(final_dir, f"largest_image.{largest_ext}")
+        with open(largest_path, "rb") as src, open(final_path, "wb") as dst:
+            dst.write(src.read())
+        print(f"Saved largest image: {final_path} ({largest_size} bytes)")
+    else:
+        print("No valid images found.")
+
+    # Clean up temp files
+    for fname in os.listdir(temp_dir):
+        try:
+            os.remove(os.path.join(temp_dir, fname))
+        except Exception:
+            pass
+    os.rmdir(temp_dir)
+
+if __name__ == "__main__":
+    download_largest_google_image("Depression-era agricultural landscape, 1933, Dust Bowl farms")
+
+print("Image download completed!")

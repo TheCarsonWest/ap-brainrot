@@ -111,8 +111,19 @@ if ($duration -match '^[\d\.]+$') {
     exit 1
 }
 
-# Get input.mp4 duration
-$inputVideo = "./input.mp4"
+
+# Get a random .mp4 from ./background_videos/
+$bgVideosDir = "./background_videos"
+if (-not (Test-Path $bgVideosDir)) {
+    Write-Warning "Background videos directory '$bgVideosDir' not found. Skipping video processing."
+    exit 1
+}
+$bgVideos = Get-ChildItem -Path $bgVideosDir -Filter *.mp4 | Where-Object { -not $_.PSIsContainer }
+if ($bgVideos.Count -eq 0) {
+    Write-Warning "No .mp4 files found in '$bgVideosDir'. Skipping video processing."
+    exit 1
+}
+$inputVideo = $bgVideos | Get-Random | Select-Object -ExpandProperty FullName
 $inputDurationCmd = "ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 `"$inputVideo`""
 $inputDuration = (& cmd /c $inputDurationCmd).Trim()
 if ($inputDuration -match '^[\d\.]+$') {
@@ -184,5 +195,11 @@ if (-not (Test-Path $videosDir)) {
 }
 $finalVideoDest = Join-Path $videosDir ("$baseName.mp4")
 Copy-Item -Path $finalVideo -Destination $finalVideoDest -Force
+
+# Delete the output folder if the argument is set
+if ($deleteOutput) {
+    Remove-Item -Recurse -Force -Path $outputDir
+    Write-Host "Deleted output folder: $outputDir"
+}
 
 

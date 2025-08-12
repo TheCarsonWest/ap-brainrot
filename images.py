@@ -1,4 +1,3 @@
-import os
 import sys
 import re
 import json
@@ -8,15 +7,21 @@ import numpy as np
 from scipy.io import wavfile
 import concurrent.futures
 from difflib import SequenceMatcher
-from time import sleep
 from google_images_search import GoogleImagesSearch
 import matplotlib.pyplot as plt
 from matplotlib import rc
 import os
 from wand.image import Image as WandImage
-import io
 from google import genai
 from google.genai import types
+import os
+import requests
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+from bs4 import BeautifulSoup
+import time
+import urllib.parse
+import hashlib
 
 # Configure Google Gemini API
 client = genai.Client(api_key=open('api.txt', 'r').read())
@@ -40,8 +45,19 @@ def ai_text(p, think=-1):
             return client.models.generate_content(contents=p,model="gemini-2.5-flash").text
     except Exception as e:
         print(f'Error in ai_text: {e}')
-        sleep(5)
+        time.sleep(5)
         return ai_text(p, think)
+
+def shorten_filename(filename):
+    """Shorten a filename using a hash to avoid errors."""
+    max_length = 255  # Typical max filename length for most filesystems
+    if len(filename) > max_length:
+        # Use a hash of the filename to shorten it
+        hash_part = hashlib.md5(filename.encode()).hexdigest()
+        # Keep the extension and shorten the rest
+        name, ext = os.path.splitext(filename)
+        filename = f"{name[:max_length - len(hash_part) - len(ext) - 1]}_{hash_part}{ext}"
+    return filename
 
 def render_latex_to_png(equation, output_file="equation.png", fontsize=12, dpi=300):
     """
@@ -53,6 +69,9 @@ def render_latex_to_png(equation, output_file="equation.png", fontsize=12, dpi=3
     - fontsize (int): Font size for the equation (default: 12).
     - dpi (int): Resolution of the output image (default: 300).
     """
+    # Shorten the output filename if necessary
+    output_file = shorten_filename(output_file)
+
     # Use matplotlib's built-in mathtext (no external LaTeX required)
     rc('text', usetex=False)
     rc('font', family='serif')
@@ -135,25 +154,29 @@ Here is the script of a video you are going to create:
 
 {script}
 
-Your job is to identify parts of the script that would benefit from visual supplementation and specify the type of visual to use: an image from a search, a diagram, or an equation. For each relevant part, provide a dictionary where the key is the exact string from the script, and the value is another dictionary with two keys: "type" and "details".
+Your job is to identify parts of the script that would benefit from visual supplementation and specify the type of visual to use: an image from a search, a diagram, or an equation. For each relevant part, provide a dictionary where the key is the exact string from the script, do not correct any grammatical errors, even if it sounds like complete nonsense. The strings MUST match what is in the script. The value for this key is another dictionary with two keys: "type" and "details".
 
-- "type": one of "text", "image", "diagram", or "equation"
+- "type": one of "text", "image", or "equation". You will choose the type based on what is most appropriate for the visual representation needed.
 - "details":
-  - For "text": just plain text that is relevant to the script, while the script itself will have subtitles across the screen, if you want to continuously display a theorem, law, or concept, you can use this option to specify the text to display. Try to use this option every time that a law, concept, principle, or theorem is mentioned in the script, and have it explain the concept in a way that is easy to understand. Do not use this option to display images, diagrams, or equations. 
+  - For "text": just plain text that is relevant to the script, while the script itself will have subtitles across the screen, if you want to continuously display a theorem, law, or concept, you can use this option to specify the text to display. Try to use this option every time that a law, concept, principle, or theorem is mentioned in the script, and have it explain the concept in a way that is easy to understand. Do not use this option to display equations. This is not markdown, so do not use any formatting, just plain text. The text should be relevant to the script and should not be a generic text. Do not use this to show specific laws, concepts, or theorems. Do not show images relating to the anything personal to the person speaking.
   - For "image": a descriptive image search prompt that would yield a relevant image for the text. The values should be descriptive image search prompts that would yield relevant images for the text. You cannot simply describe a concept you want to show, you must describe the image you want to find. If it is trying to convey a concept, then search directly for that concetp instead of describing that concept. The image should be relevant to the text and should not be a generic image. Do not use this to show specific laws, concepts, or theorems. Do not show images relating to the anything personal to the person speaking.
-  - For "diagram": a brief description of the diagram needed (e.g., "strong acid weak base titration curve"). Use this option sparingly, only when a diagram is necessary and an image search is insufficient.
-  - For "equation": the mathematical equation in LaTeX format. Try to use this option every time that a mathematical equation is mentioned in the script.
+
+  - For "equation": the mathematical equation in LaTeX format. Try to use this option every time that a mathematical equation is mentioned in the script. For the text that triggers the equation, try to use the text from before the equation is said , and until the text after the equation is said. do not paraphrase or change it. The LaTeX equation should be a valid LaTeX equation that can be rendered to an image. Do not use this option to display images, diagrams, or concepts.
 
 Choose the most appropriate type of visual for each part, preferring "image" when possible. Use "diagram" only when a visual representation is crucial and cannot be conveyed through an image. Use "equation" only when mathematical expressions are mentioned.
 
 Respond with a JSON dictionary where each key is an exact string from the script that requires a visual, and each value is a dictionary with "type" and "details" as described. Do not include parts of the script that do not require a visual. Do not add any other text or explanation.
 """
 
+""" 
+ "diagram",
+ - For "diagram": a brief description of the diagram needed (e.g., "strong acid weak base titration curve"). Use this option sparingly, only when a diagram is necessary and an image search is insufficient. """
+
 def similarity(a: str, b: str) -> float:
     """Calculate similarity between two strings using SequenceMatcher."""
     return SequenceMatcher(None, a.lower(), b.lower()).ratio()
 
-def get_trigger_intervals(srt_text: str, timings: str, default_image_duration: float = 0.5, similarity_threshold: float = 0.35) -> List[Tuple[float, float, str]]:
+def get_trigger_intervals(srt_text: str, timings: str, default_image_duration: float = 3, similarity_threshold: float = 0.5) -> List[Tuple[float, float, str]]:
     """Map image prompts to subtitle timestamps using substring and fuzzy matching."""
     srt_entries = parse_srt(srt_text)
     grouped_entries = group_srt_into_phrases(srt_entries)
@@ -197,6 +220,100 @@ def get_trigger_intervals(srt_text: str, timings: str, default_image_duration: f
             print(f"  {start:.2f} --> {end:.2f}: {text}")
 
     return sorted(intervals, key=lambda x: x[0])
+
+def download_largest_google_image(prompt, local_path):
+    temp_dir = "./imag_temp"
+    if not os.path.exists(temp_dir):
+        os.makedirs(temp_dir)
+
+    # Initialize Chrome WebDriver with headless options
+    options = Options()
+    options.add_argument("--headless=new")  # Use newer headless mode
+    options.add_argument("--no-sandbox")  # Improve compatibility in some environments
+    options.add_argument("--disable-dev-shm-usage")  # Avoid shared memory issues
+    options.add_argument("--disable-gpu")  # Disable GPU for headless stability
+    options.add_argument("--window-size=1920,1080")  # Set a window size for rendering
+
+    # Initialize ChromeDriver
+    driver = webdriver.Chrome(options=options)
+    try:
+        # Construct and visit Google Images search URL
+        encoded_query = urllib.parse.quote(prompt)
+        driver.get(f"https://www.google.com/search?tbm=isch&q={encoded_query}")
+
+        # Scroll to load more images
+        time.sleep(0.5)
+
+        # Parse page source
+        soup = BeautifulSoup(driver.page_source, "html.parser")
+        
+        # Collect image URLs
+        images = soup.find_all("img")
+        img_urls = []
+        for img in images:
+            img_url = img.get("src") or img.get("data-src")
+            if img_url and img_url.startswith("http"):
+                img_urls.append(img_url)
+            if len(img_urls) >= 25:
+                break
+
+        if not img_urls:
+            raise RuntimeError(f"No valid images found for prompt: {prompt}")
+
+        # Download images and find the largest
+        largest_size = 0
+        largest_path = None
+        largest_ext = "jpg"
+        extension_map = {
+            "image/jpeg": "jpg",
+            "image/png": "png",
+            "image/gif": "gif"
+        }
+
+        for i, img_url in enumerate(img_urls):
+            try:
+                response = requests.get(img_url, stream=True, timeout=10)
+                if response.status_code == 200:
+                    content_type = response.headers.get("content-type", "").lower()
+                    if "image" in content_type:
+                        file_extension = extension_map.get(content_type, "jpg")
+                        file_path = os.path.join(temp_dir, f"image_{i}.{file_extension}")
+                        with open(file_path, "wb") as f:
+                            for chunk in response.iter_content(1024):
+                                f.write(chunk)
+                        file_size = os.path.getsize(file_path)
+                        if file_size > largest_size:
+                            largest_size = file_size
+                            largest_path = file_path
+                            largest_ext = file_extension
+            except Exception:
+                continue
+
+        if not largest_path:
+            raise RuntimeError(f"No valid images found for prompt: {prompt}")
+
+        # Save the largest image to the specified local_path
+        final_dir = os.path.dirname(local_path)
+        if final_dir and not os.path.exists(final_dir):
+            os.makedirs(final_dir)
+        
+        with open(largest_path, "rb") as src, open(local_path, "wb") as dst:
+            dst.write(src.read())
+
+        # Clean up temp files
+        for fname in os.listdir(temp_dir):
+            try:
+                os.remove(os.path.join(temp_dir, fname))
+            except Exception:
+                pass
+        os.rmdir(temp_dir)
+
+        return os.path.normpath(local_path)
+
+    finally:
+        driver.quit()
+
+
 
 def image_search_and_cache(prompt_dict: dict, cache_dir: str) -> str:
     # type = "image", search for images on google
@@ -255,7 +372,6 @@ def image_search_and_cache(prompt_dict: dict, cache_dir: str) -> str:
             max_font_size = 100
             min_font_size = 20
             best_font_size = min_font_size
-            best_lines = []
             for font_size in range(max_font_size, min_font_size-1, -2):
                 try:
                     font = ImageFont.truetype(font_path or "DejaVuSans.ttf", font_size)
@@ -267,7 +383,6 @@ def image_search_and_cache(prompt_dict: dict, cache_dir: str) -> str:
                 total_height = sum([draw_temp.textbbox((0,0), line, font=font)[3] - draw_temp.textbbox((0,0), line, font=font)[1] for line in lines]) + (len(lines)-1)*8
                 if total_height <= H - 2*PAD:
                     best_font_size = font_size
-                    best_lines = lines
                     break
             try:
                 font = ImageFont.truetype(font_path or "DejaVuSans.ttf", best_font_size)
@@ -301,25 +416,8 @@ def image_search_and_cache(prompt_dict: dict, cache_dir: str) -> str:
             return None
 
     if prompt_dict.get("type") == "image":
-        gis = GoogleImagesSearch("AIzaSyBqOeFLTdxVZ61mZZ3jjQO1FBL7fXz9IQc", 'f26a3684236594ae5')
-        search_params = {
-            'q': prompt,
-            'num': 1,
-            'safe': 'medium',
-            'fileType': 'jpg|png',
-            'imgType': 'photo',
-            'imgSize': 'medium',
-        }
-        gis.search(search_params=search_params)
-        results = gis.results()
-        if not results:
-            raise RuntimeError(f"No valid images found for prompt: {prompt}")
-        raw_data = results[0].get_raw_data()
-        if not raw_data:
-            raise RuntimeError(f"Downloaded image data is invalid for prompt: {prompt}")
-        with open(local_path, "wb") as f:
-            f.write(raw_data)
-        return os.path.normpath(local_path)
+        # Use the new download_largest_google_image function instead of GoogleImagesSearch API
+        return download_largest_google_image(prompt, local_path)
     
     
     elif prompt_dict.get("type") == "equation":
@@ -440,7 +538,7 @@ if __name__ == "__main__":
             break
         except json.JSONDecodeError as e:
             print(f"Malformed JSON from AI, retrying: {e}")
-            sleep(2)
+            time.sleep(2)
     print(f"Generated timings: {timings}")
     # Save timings JSON to cache directory
     os.makedirs(cache_dir, exist_ok=True)

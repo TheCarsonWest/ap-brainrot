@@ -28,7 +28,7 @@ foreach ($MarkdownFile in $MarkdownFiles) {
     $GeneratedScript = Join-Path -Path "./scripts" -ChildPath ("$BaseName.txt")
 
     # Run the flow.ps1 script with the no curly script
-    ./flow2.ps1 "$GeneratedScript" "$TargetDirectory"
+    ./flow2.ps1 "$GeneratedScript" "$TargetDirectory" --delete_output
 
     # Move the processed .md file to ./done
     $DoneDir = Join-Path -Path $MarkdownFolder -ChildPath "done"
