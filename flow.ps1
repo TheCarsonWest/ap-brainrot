@@ -94,9 +94,9 @@ $framesDir = $framesDir -replace '\\', '/'
 $cacheDir = $cacheDir -replace '\\', '/'
 $outputDir = $outputDir -replace '\\', '/'
 
-# python images.py <subtitles.srt> <wav_path> <input_frames_dir> <cache_dir> <output_dir>
+# python images.py <subtitles.srt> <wav_path> <input_frames_dir> <cache_dir> <output_dir> <video_name>
 # Execute the command
-$cmd = "python images.py `"$srtPath`" `"$wavPath`" `"$framesDir`" `"$cacheDir`" `"$framesDir`""
+$cmd = "python images.py `"$srtPath`" `"$wavPath`" `"$framesDir`" `"$cacheDir`" `"$framesDir`" `"$baseName`""
 
 Write-Host "Executing command: $cmd"
 
@@ -161,7 +161,7 @@ Write-Host "Subtitles Path: $quotedAssPath"
 Write-Host "Final Video: $quotedFinalVideo"
 
 # Use -filter_complex for multiple inputs
-$filterComplex = "[0:v]crop=720:1080:(in_w-720)/2:(in_h-1080)/2,subtitles=$quotedAssPath[vid];[vid][1:v]overlay=shortest=1[outv]"
+$filterComplex = "[0:v]crop=720:1080:(in_w-640)/2:(in_h-1080)/2,subtitles=$quotedAssPath[vid];[vid][1:v]overlay=shortest=1[outv]"
 
 $arguments = @(
     '-y'

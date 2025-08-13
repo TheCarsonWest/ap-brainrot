@@ -327,7 +327,7 @@ def image_search_and_cache(prompt_dict: dict, cache_dir: str) -> str:
 
     if prompt_dict.get("type") == "text":
         try:
-            return generate_text_image(prompt_dict.get("details", ""), local_path)
+            return generate_text_image(prompt_dict.get("details", ""), local_path, W=640, H=1080)
         except Exception as e:
             print(f"Failed to render text image: {e}")
             return None
@@ -431,7 +431,7 @@ def superimpose_frame(args):
     output_path = os.path.normpath(os.path.join(output_dir, f"frame_{i:04d}.png"))
     frame.save(output_path)
 
-def generate_text_image(text_content, local_path, W=720, H=200, PAD=20):
+def generate_text_image(text_content, local_path, W=640, H=1080, PAD=20):
     """Generate an image of text with autofit, white text, black outline, and drop shadow."""
     # Try to load DejaVu Sans font
     font_path = None
@@ -458,7 +458,7 @@ def generate_text_image(text_content, local_path, W=720, H=200, PAD=20):
             lines.append(line)
         return lines
 
-    max_font_size = 100
+    max_font_size = 80
     min_font_size = 20
     best_font_size = min_font_size
     for font_size in range(max_font_size, min_font_size-1, -2):
@@ -511,9 +511,7 @@ if __name__ == "__main__":
     input_frames_dir = sys.argv[3]
     cache_dir = sys.argv[4]
     output_dir = sys.argv[5]
-
-    vid_name = sys.argv[1].split('\\')[-2]
-    print(vid_name)
+    vid_name = sys.argv[6]
     with open(srt_path, "r", encoding="utf-8") as f:
         srt_text = f.read()
 
@@ -570,7 +568,7 @@ if __name__ == "__main__":
     sr, data = wavfile.read(wav_path)
     duration = len(data) / sr
     fps = 30
-    W, H = 720, 1080
+    W, H = 640, 1080
     os.makedirs(output_dir, exist_ok=True)
 
     num_frames = int(duration * fps)

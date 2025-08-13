@@ -124,7 +124,7 @@ aspect_ratio = img.width / img.height
 target_width = int(target_height * aspect_ratio)
 img = img.resize((target_width, target_height), resample=Image.BICUBIC)
 
-W, H = 720, 1080  # match video size
+W, H = 640, 1080  # match video size
 
 num_frames = int(duration * fps)
 

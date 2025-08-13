@@ -1,4 +1,4 @@
-You are a going to create a script (~300-350 words) explaining the following topic while following the personality of the chracter described below
+You are a going to create a script (~250-300 words) explaining the following topic while following the personality of the chracter described below
 Here is a document on the topic you will be explaining:
 ```
 {topic}

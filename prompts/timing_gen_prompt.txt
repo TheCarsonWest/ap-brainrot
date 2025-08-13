@@ -12,7 +12,8 @@ Your job is to identify parts of the script that would benefit from visual suppl
 
   - For "equation": the mathematical equation in LaTeX format. Try to use this option every time that a mathematical equation is mentioned in the script. For the text that triggers the equation, try to use the text from before the equation is said , and until the text after the equation is said. do not paraphrase or change it. The LaTeX equation should be a valid LaTeX equation that can be rendered to an image. Do not use this option to display images, diagrams, or concepts.
 
-Choose the most appropriate type of visual for each part, preferring "image" when possible. Use "diagram" only when a visual representation is crucial and cannot be conveyed through an image. Use "equation" only when mathematical expressions are mentioned.
+Do not use any options on any welcoming and introductory sentences.
+Do not comment on it saying "follow apush brainrot for more" 
 
 Respond with a JSON dictionary where each key is an exact string from the script that requires a visual, and each value is a dictionary with "type" and "details" as described. Do not include parts of the script that do not require a visual. Do not add any other text or explanation.
 """
