@@ -15,7 +15,7 @@
 - Done
 ## Subject implementations
 - Latex
-- Manim
+- Manima
 ## General on screen graphics
 - Assets library
  - Done
